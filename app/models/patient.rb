@@ -11,7 +11,7 @@ class Patient < ApplicationRecord
       (age - unknown.age) ** 2 +
       (pain_level - unknown.pain_level) ** 2 +
       (bodyweight - unknown.bodyweight) ** 2 +
-      (knee_AROM - unknown.knee_AROM) ** 2)
+      (knee_AROM - unknown.knee_AROM) ** 2).round(2)
   end
 
   def self.calculate_all_distances_from(unknown)
@@ -31,7 +31,6 @@ class Patient < ApplicationRecord
     find_kNN(k).group_by{|patient| patient.classification}
     .max_by{|classification, patients| patients.count}
     .first
-
     # group(:classification, :distance_to_unknown).order(:distance_to_unknown).limit(k).count
 
     # x = find_by_sql("SELECT classification, COUNT(classification) FROM
