@@ -11,8 +11,13 @@ class PatientsController < ApplicationController
 
   def create
     @patient = Patient.new(patient_params)
-    @prediction = Patient.classify_unknown(@patient, params[:k].to_i)
-    render :new
+    if patient_params.include?("") || params[:k].strip == ""
+      flash[:notice] = "Please enter all information."
+      render :new
+    else
+      @prediction = Patient.classify_unknown(@patient, params[:k].to_i)
+      render :new
+    end
   end
 
   private

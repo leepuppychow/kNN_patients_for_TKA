@@ -16,7 +16,7 @@ describe Patient, type: :model do
       unknown = build(:patient, age: 59, pain_level: 9)
 
       patient.find_distance_to(unknown)
-      expect(patient.distance_to_unknown).to eq 5
+      expect(patient.distance_to_unknown).to eq 5.0
     end
   end
 
@@ -41,7 +41,7 @@ describe Patient, type: :model do
       Patient.calculate_all_distances_from(unknown)
 
       expect(Patient.sum(:distance_to_unknown)).to_not eq 0
-      expect(Patient.sum(:distance_to_unknown)).to eq 1214
+      expect(Patient.sum(:distance_to_unknown)).to eq 1224.29
     end
 
     it "can find the k-Nearest Neighbors" do
@@ -50,8 +50,8 @@ describe Patient, type: :model do
       Patient.calculate_all_distances_from(unknown)
 
       expect(Patient.find_kNN(3).count).to eq 3
-      expect(Patient.find_kNN(3).first.distance_to_unknown).to eq 5
-      expect(Patient.find_kNN(3).last.distance_to_unknown).to eq 12
+      expect(Patient.find_kNN(3).first.distance_to_unknown).to eq 5.48
+      expect(Patient.find_kNN(3).last.distance_to_unknown).to eq 12.88
     end
 
     it "can classify unknown patient" do

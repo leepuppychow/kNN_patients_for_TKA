@@ -5,16 +5,30 @@
   <h3>Patient recommended for TKA? => <%= @prediction %></h3>
 <% end  %>
 
+<table>
 <%= form_for @patient, action: "predict" do |f| %>
-  <%= label_tag "Enter K (must be odd number!):" %>
-  <%= number_field_tag :k %></br>
-  <%= f.label :age %>
-  <%= f.number_field :age %></br>
-  <%= f.label "Pain level(0-10)" %>
-  <%= f.number_field :pain_level %></br>
-  <%= f.label "Bodyweight(pounds)" %>
-  <%= f.number_field :bodyweight %></br>
-  <%= f.label "Knee AROM - total arc" %>
-  <%= f.number_field :knee_AROM %></br>
-  <%= f.submit "Make Prediction"%>
+  <tr>
+    <th><%= label_tag "K (must be odd number!):" %></th>
+    <th><%= number_field_tag :k %></th>
+  </tr>
+  <tr>
+    <th><%= f.label :age %></th>
+    <th><%= f.number_field :age %></th>
+  </tr>
+  <tr>
+    <th><%= f.label "Pain level(0-10)" %></th>
+    <th><%= f.number_field :pain_level %></th>
+  </tr>
+  <tr>
+    <th><%= f.label "Bodyweight(pounds)" %></th>
+    <th><%= f.number_field :bodyweight %></th>
+  </tr>
+  <tr>
+    <th><%= f.label "Knee AROM - total arc" %></th>
+    <th><%= f.number_field :knee_AROM %></th>
+  </tr>
+  <tr>
+    <th colspan=2><%= f.submit "Make Prediction"%></th>
+  </tr>
 <% end  %>
+</table>
