@@ -1,0 +1,25 @@
+<h1>Training Data: All Patients</h1>
+
+<table>
+  <tr>
+    <th>Patient ID</th>
+    <th>Age</th>
+    <th>Pain level(0-10)</th>
+    <th>Bodyweight(pounds)</th>
+    <th>Knee AROM(full arc)</th>
+    <th>Classification</th>
+    <th>Distance to Unknown</th>
+  </tr>
+
+  <% @patients.each do |patient| %>
+    <tr>
+      <th><%=patient.id %></th>
+      <th><%=patient.age %></th>
+      <th><%=patient.pain_level %></th>
+      <th><%=patient.bodyweight %></th>
+      <th><%=patient.knee_AROM %></th>
+      <th><%=patient.classification %></th>
+      <th><%=patient.distance_to_unknown %></th>
+    </tr>
+  <% end %>
+</table>
