@@ -1,7 +1,7 @@
 class PatientsController < ApplicationController
 
   def index
-    @patients = Patient.all
+    @patients = Patient.order(:distance_to_unknown)
   end
 
   def new
@@ -10,11 +10,8 @@ class PatientsController < ApplicationController
   end
 
   def create
-    unknown = Patient.new(patient_params)
-    k = params[:k].to_i
-    @prediction = Patient.classify_unknown(unknown, k)
-
-    @patient = Patient.new
+    @patient = Patient.new(patient_params)
+    @prediction = Patient.classify_unknown(@patient, params[:k].to_i)
     render :new
   end
 

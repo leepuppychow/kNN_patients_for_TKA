@@ -1,11 +1,12 @@
 <h1>Add New Patient Information</h1>
+<%= link_to "Patient Index (training data)", patients_path %></br>
 
 <% if @prediction %>
   <h3>Patient recommended for TKA? => <%= @prediction %></h3>
 <% end  %>
 
 <%= form_for @patient, action: "predict" do |f| %>
-  <%= label_tag "Enter K:" %>
+  <%= label_tag "Enter K (must be odd number!):" %>
   <%= number_field_tag :k %></br>
   <%= f.label :age %>
   <%= f.number_field :age %></br>

@@ -29,6 +29,7 @@ class Patient < ApplicationRecord
     calculate_all_distances_from(unknown)
     neighbors = find_kNN(k).pluck(:classification)
 
+    #This won't work if there are more than 2 categories
     if neighbors.count("Yes") > neighbors.count("No")
       "Yes"
     else
