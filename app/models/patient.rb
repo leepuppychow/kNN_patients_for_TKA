@@ -27,21 +27,16 @@ class Patient < ApplicationRecord
 
   def self.classify_unknown(unknown, k)
     calculate_all_distances_from(unknown)
-    neighbors = find_kNN(k).pluck(:classification)
 
-    #This won't work if there are more than 2 categories
-    if neighbors.count("Yes") > neighbors.count("No")
-      "Yes"
-    else
-      "No"
-    end
+    find_kNN(k).group_by{|patient| patient.classification}
+    .max_by{|classification, patients| patients.count}
+    .first
 
     # group(:classification, :distance_to_unknown).order(:distance_to_unknown).limit(k).count
 
     # x = find_by_sql("SELECT classification, COUNT(classification) FROM
     #             (SELECT * FROM patients ORDER BY distance_to_unknown LIMIT 3) AS foo
     #             GROUP BY classification")
-
   end
 
 end
