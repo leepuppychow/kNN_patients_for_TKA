@@ -13,7 +13,7 @@ describe Patient, type: :model do
   describe "Instance Methods" do
     it "can calculate Euclidean distance between two patients" do
       patient = create(:patient)
-      unknown = create(:patient, age: 59, pain_level: 9)
+      unknown = build(:patient, age: 59, pain_level: 9)
 
       patient.find_distance_to(unknown)
       expect(patient.distance_to_unknown).to eq 5
@@ -21,26 +21,37 @@ describe Patient, type: :model do
   end
 
   describe "Class Methods" do
-    it "can calculate the distance to unknown for all patients in database" do
+    before(:each) do
       Patient.destroy_all
       patients = CSV.open("./lib/seeds/kNN_patients.csv", headers: true).readlines
 
       patients.each do |patient|
         Patient.create!(age: patient["age"],
-                        pain_level: patient["pain_level"],
-                        bodyweight: patient["bodyweight"],
-                        knee_AROM: patient["knee_AROM"],
-                        classification: patient["classification"],
-                        distance_to_unknown: patient["distance_to_unknown"])
-      end
+          pain_level: patient["pain_level"],
+          bodyweight: patient["bodyweight"],
+          knee_AROM: patient["knee_AROM"],
+          classification: patient["classification"],
+          distance_to_unknown: patient["distance_to_unknown"])
+        end
+    end
 
-      unknown = create(:patient, age: 59, pain_level: 9)
+    it "can calculate the distance to unknown for all patients in database" do
+      unknown = build(:patient, age: 59, pain_level: 9)
 
       Patient.calculate_all_distances_from(unknown)
 
-      expect(Patient.sum(:distance_to_unknown)).to eq 1214
       expect(Patient.sum(:distance_to_unknown)).to_not eq 0
+      expect(Patient.sum(:distance_to_unknown)).to eq 1214
+    end
 
+    it "can find the k-Nearest Neighbors" do
+      unknown = build(:patient, age: 59, pain_level: 9)
+
+      Patient.calculate_all_distances_from(unknown)
+
+      expect(Patient.find_kNN(3).count).to eq 3
+      expect(Patient.find_kNN(3).first.distance_to_unknown).to eq 5
+      expect(Patient.find_kNN(3).last.distance_to_unknown).to eq 12
     end
   end
 end

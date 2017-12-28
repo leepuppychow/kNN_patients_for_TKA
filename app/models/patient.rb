@@ -15,10 +15,14 @@ class Patient < ApplicationRecord
   end
 
   def self.calculate_all_distances_from(unknown)
-    Patient.all.each do |patient|
+    all.each do |patient|
       patient.find_distance_to(unknown)
       patient.save
     end
+  end
+
+  def self.find_kNN(k)
+    order(:distance_to_unknown).limit(k)
   end
 
 end
