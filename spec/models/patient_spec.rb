@@ -53,5 +53,11 @@ describe Patient, type: :model do
       expect(Patient.find_kNN(3).first.distance_to_unknown).to eq 5
       expect(Patient.find_kNN(3).last.distance_to_unknown).to eq 12
     end
+
+    it "can classify unknown patient" do
+      unknown = build(:patient, age: 59, pain_level: 9)
+
+      expect(Patient.classify_unknown(unknown, 3)).to eq "No"
+    end
   end
 end
