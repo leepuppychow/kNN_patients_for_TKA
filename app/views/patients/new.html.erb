@@ -1,0 +1,20 @@
+<h1>Add New Patient Information</h1>
+<%= link_to "Patient Index (training data)", patients_path %></br>
+
+<% if @prediction %>
+  <h3>Patient recommended for TKA? => <%= @prediction %></h3>
+<% end  %>
+
+<%= form_for @patient, action: "predict" do |f| %>
+  <%= label_tag "Enter K (must be odd number!):" %>
+  <%= number_field_tag :k %></br>
+  <%= f.label :age %>
+  <%= f.number_field :age %></br>
+  <%= f.label "Pain level(0-10)" %>
+  <%= f.number_field :pain_level %></br>
+  <%= f.label "Bodyweight(pounds)" %>
+  <%= f.number_field :bodyweight %></br>
+  <%= f.label "Knee AROM - total arc" %>
+  <%= f.number_field :knee_AROM %></br>
+  <%= f.submit "Make Prediction"%>
+<% end  %>
