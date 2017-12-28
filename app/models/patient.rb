@@ -13,4 +13,12 @@ class Patient < ApplicationRecord
       (bodyweight - unknown.bodyweight) ** 2 +
       (knee_AROM - unknown.knee_AROM) ** 2)
   end
+
+  def self.calculate_all_distances_from(unknown)
+    Patient.all.each do |patient|
+      patient.find_distance_to(unknown)
+      patient.save
+    end
+  end
+
 end
